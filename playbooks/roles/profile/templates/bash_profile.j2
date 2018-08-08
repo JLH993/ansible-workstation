@@ -1,0 +1,44 @@
+# Shell look and path
+export PS1='$(date +%H:%M) \[\e[0;32m\]MacOS: \W/>\$ \[\e[0m\]'
+PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/Scripts/.bin"
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+
+# Shell Histroy:
+HISTTIMEFORMAT="%d/%m/%y %T "
+HISTSIZE=5000
+
+# Functions
+Generate-Alias(){
+    ALIAS="$1"
+    FILE="$2"
+
+    if [[ -f "$FILE" ]]; then
+        alias "${ALIAS}='$FILE'"
+    fi 
+}
+
+print(){
+    var="$1";
+{% raw %}
+    size="${#var}";
+{% endraw %}
+    printf -v sep "%${size}s" "-";
+    printf "\n%s\n%s\n" "$var" "${sep// /-}";
+};
+
+# Aliases
+alias ll='ls -l'
+alias tscurl='curl -Lsvo /dev/null'
+
+type -a nmap &> /dev/null &&
+    alias ciphers='nmap -p 443 --script ssl-enum-ciphers'
+
+Generate-Alias vim          /usr/local/bin/vim
+Generate-Alias python       /usr/local/bin/python
+Generate-Alias easy_install /usr/local/bin/easy_install
+Generate-Alias grep         /usr/local/bin/ggrep
+Generate-Alias vim          /usr/local/bin/vim
+
+# Binds
+bind '"4~":"dig +short "'

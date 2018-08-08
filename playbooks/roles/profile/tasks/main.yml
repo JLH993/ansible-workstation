@@ -1,0 +1,6 @@
+- name: Copy MacOS bash_profile
+  template:
+    src: ../templates/bash_profile.j2
+    dest: "$HOME/.bash_profile"
+  when:
+    - ansible_os_family == 'Darwin'

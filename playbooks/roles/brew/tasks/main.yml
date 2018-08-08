@@ -2,14 +2,18 @@
   shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   args:
     creates: /usr/local/bin/brew
-  when: 
+  when:
     - ansible_os_family == 'Darwin'
 
-- name: Install HomeBrew\'d Applications
+- name: "Install HomeBrew'd Applications"
   homebrew:
     name: "{{ item }}"
   loop:
     - tree
     - wget
     - openssl
+    - grep
+    - nmap
     - terraform
+  when:
+    - ansible_os_family == 'Darwin'
