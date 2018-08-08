@@ -1,5 +1,29 @@
 # MacOS
 
+1. Install pip:
+
+   ```
+   sudo easy_install pip
+   ```
+
+2. Install ansible:
+
+   ```
+   sudo pip install ansible
+   ```
+
+3. Modify /etc/sudoers to allow unrestricted sudo access to your user.
+
+   ```
+   sudo visudo
+   ```
+
+4. Run the playbook.
+
+   ```
+   ansible-playbook Playbooks/workstation.yml
+   ```
+
 # Windows
 
 ## WSL Setup
