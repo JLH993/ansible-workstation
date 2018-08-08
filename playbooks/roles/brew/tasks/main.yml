@@ -4,3 +4,12 @@
     creates: /usr/local/bin/brew
   when: 
     - ansible_os_family == 'Darwin'
+
+- name: Install HomeBrew\'d Applications
+  homebrew:
+    name: "{{ item }}"
+  loop:
+    - tree
+    - wget
+    - openssl
+    - terraform
