@@ -1,0 +1,27 @@
+- name: Create Directories
+  file:
+    state: directory
+    path: "{{ item }}"
+  loop:
+    - "/Users/{{ username }}/Git"
+    - "/Users/{{ username }}/Scripts"
+    - "/Users/{{ username }}/Scripts/.bin"
+  when:
+    - ansible_os_family == 'Darwin'
+
+- name: Copy desktop_cleanup.py to .bin directory
+  copy:
+    src: ../templates/desktop_cleanup.py
+    dest: "/Users/{{ username }}/Scripts/.bin"
+    mode: 0744
+    owner: "{{ username }}"
+  when:
+    - ansible_os_family == 'Darwin'
+
+- name: Configure Launchd config
+  copy:
+    src: ../templates/com.scriptmyjob.desktop_cleanup.plist.j2
+    dest: "/Users/{{ username }}/Library/LaunchAgents/com.scriptmyjob.desktop_cleanup.plist"
+  when:
+    - ansible_os_family == 'Darwin'
+
