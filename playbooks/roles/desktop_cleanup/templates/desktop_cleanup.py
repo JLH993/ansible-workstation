@@ -39,11 +39,11 @@ def move_items(items, source, destination):
     if not os.path.isdir(destination):
         logger.info('Creating directory: "{0}"'.format(destination))
         os.makedirs(destination)
-
+    
     for i in items:
         source_file = os.path.join(source, i)
         dest_file   = os.path.join(destination, i)
-
+        
         logger.info('Moving "{0}" to "{1}"'.format(source_file, dest_file))
         os.rename(source_file, dest_file)
 
@@ -59,19 +59,26 @@ def get_pictures(directory, pattern):
     
     if pictures:
         logger.info('Found items to move: ' + str(pictures))
-    else:
-        return
-
+    
     return pictures
 
 
 def archive_old_pictures(temp_dir, pattern):
-    old_pictures = get_pictures(temp_dir, pattern)[:-5]
-
+    pictures = get_pictures(temp_dir, pattern)
+    
+    old_pictures = [
+        os.path.split(o)[1] for o in sorted(
+            [
+                os.path.join(temp_dir, p) for p in pictures
+            ],
+            key=os.path.getmtime
+        )
+    ][:-5]
+    
     for op in old_pictures:
         dest = temp_dir.strip('Temp') + op.split(' ')[2]
         src  = temp_dir
-
+        
         move_items([op], src, dest)
 
 

@@ -19,7 +19,7 @@
     - ansible_os_family == 'Darwin'
 
 - name: Configure Launchd config
-  copy:
+  template:
     src: ../templates/com.scriptmyjob.desktop_cleanup.plist.j2
     dest: "/Users/{{ username }}/Library/LaunchAgents/com.scriptmyjob.desktop_cleanup.plist"
   when:
