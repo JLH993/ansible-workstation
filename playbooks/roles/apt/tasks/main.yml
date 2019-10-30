@@ -1,0 +1,12 @@
+- name: Install apt packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - tree
+    - vim
+    - python3-pip
+  become: true
+  when:
+    - ansible_os_family == 'Debian'
+

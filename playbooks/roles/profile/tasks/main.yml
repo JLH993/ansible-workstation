@@ -3,4 +3,5 @@
     src: ../templates/bash_profile.j2
     dest: "$HOME/.bash_profile"
   when:
+    - ansible_os_family == 'Debian'
     - ansible_os_family == 'Darwin'
