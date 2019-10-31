@@ -93,6 +93,62 @@
                     grep -Pow '[a-zA-Z\-]+'
             )
         }
+
+        complete_if_exists(){
+            FILE="$1"
+            COMMAND="$2"
+
+            if test -f "$FILE"; then
+                if command -v "$COMMAND" > /dev/null; then
+                    complete -C "$FILE" "$COMMAND"
+                else
+                    echo "$COMMAND does not exist."
+                fi
+            else
+                echo "$FILE does not exist."
+            fi
+        }
+
+        source_if_exists(){
+            FILE="$1"
+
+            if test -f "$FILE"; then
+                source "$FILE"
+            else
+                echo "$FILE does not exist."
+            fi
+        }
+
+        # Aliases
+        alias ll='ls -l'
+        alias tree='tree -C'
+        alias tscurl='curl -Lsvo /dev/null'
+
+        command -v nmap > /dev/null &&
+            alias ciphers='nmap -p 443 --script ssl-enum-ciphers'
+
+        # Completers
+        # shellcheck disable=SC1091
+        source_if_exists /usr/local/etc/profile.d/bash_completion.sh
+        complete_if_exists "$(command -v aws_completer)" aws
+        complete_if_exists "/usr/local/etc/bash_completion.d/az" az
+        complete_if_exists /usr/local/bin/terraform terraform
+
+        # shellcheck disable=SC1090
+        source_if_exists ~/Git/git-completion.bash
+
+        # shellcheck disable=SC1090
+        source <( command -v kubectl > /dev/null && kubectl completion bash )
+
+        # Kops
+        export KOPS_STATE_STORE="s3://dev.k8s.aztek.io"
+
+        # Default Editor
+        export EDITOR="vim"
+
+        # Python 3.7
+        alias python=python3
+        alias pip=pip3
         {% endraw %}
     dest: "{{ lookup('env', 'HOME') }}/.bash_profile"
   when:
