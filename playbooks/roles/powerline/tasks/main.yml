@@ -13,7 +13,7 @@
     - ansible_os_family == 'Debian' or
       ansible_os_family == 'Darwin'
 
-- name: configure .bash_profile
+- name: Configure .bash_profile
   blockinfile:
     marker: "## POWERLINE CONFIGS {mark}"
     block: |
@@ -26,3 +26,14 @@
         test -f "$POWERLINE_BASH_BINDINDS_FILE" && \
             source "$POWERLINE_BASH_BINDINDS_FILE"
     path: "{{ lookup('env', 'HOME') }}/.bash_profile"
+  when:
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'
+
+- name: Configure Powerline
+  copy:
+    src: "../templates/.config/powerline"
+    dest: "{{ lookup('env', 'HOME') }}/.config"
+  when:
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'
