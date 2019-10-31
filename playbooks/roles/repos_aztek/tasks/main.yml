@@ -13,6 +13,19 @@
     - git@gitlab.com:aztek-io/git-container.git
     - git@gitlab.com:aztek-io/aztek_website.git
     - git@gitlab.com:aztek-io/cve_bot.git
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Wait for API limits
+  shell: "sleep 15"
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Clone all the things
+  git:
+    repo: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/Git/Aztek/{{ item.split('/')[-1].split('.')[0] }}"
+  loop:
     - git@gitlab.com:aztek-io/awscli-container.git
     - git@gitlab.com:aztek-io/armor-cli.git
     - git@gitlab.com:aztek-io/oncall.git
@@ -23,6 +36,19 @@
     - git@gitlab.com:aztek-io/ecs-cluster.git
     - git@gitlab.com:aztek-io/word-count.git
     - git@gitlab.com:aztek-io/vscode-settings.git
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Wait for API limits
+  shell: "sleep 15"
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Clone all the things
+  git:
+    repo: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/Git/Aztek/{{ item.split('/')[-1].split('.')[0] }}"
+  loop:
     - git@gitlab.com:aztek-io/vpc-with-webapp.git
     - git@gitlab.com:aztek-io/packer-example.git
     - git@gitlab.com:aztek-io/slackmojis.git
@@ -33,6 +59,19 @@
     - git@gitlab.com:aztek-io/cdn.git
     - git@gitlab.com:aztek-io/python-unit-test-example.git
     - git@gitlab.com:aztek-io/python-version-utils.git
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Wait for API limits
+  shell: "sleep 15"
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Clone all the things
+  git:
+    repo: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/Git/Aztek/{{ item.split('/')[-1].split('.')[0] }}"
+  loop:
     - git@gitlab.com:aztek-io/bulk-jira-ticket-creation.git
     - git@gitlab.com:aztek-io/helm-container.git
     - git@gitlab.com:aztek-io/blog.git
