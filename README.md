@@ -8,13 +8,9 @@
    ```
    sudo pip install ansible
    ```
-3. Modify /etc/sudoers to allow unrestricted sudo access to your user.
+3. Run the playbook.
    ```
-   sudo visudo
-   ```
-4. Run the playbook.
-   ```
-   ansible-playbook Playbooks/workstation.yml
+   ansible-playbook playbooks/workstation.yml --ask-become-pass
    ```
 
 # Windows
@@ -37,6 +33,16 @@
 1. Install ansible via pip:
    ```
    pip install ansible
-   ``` 
+   ```
 
 # Linux
+
+1. Install ansible via pip:
+   ```
+   pip install ansible
+   ```
+
+2. Run the playbook.
+   ```
+   ansible-playbook playbooks/workstation.yml --ask-become-pass
+   ```

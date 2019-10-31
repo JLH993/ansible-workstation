@@ -1,0 +1,15 @@
+- name: Clone all the things
+  git:
+    repo: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/Git/Calm/{{ item.split('/')[-1].split('.')[0] }}"
+  loop:
+    - git@github.com:calm/talos.git
+    - git@github.com:calm/terraform.git
+    - git@github.com:calm/terraform-provider-statuspage.git
+    - git@github.com:calm/terraform-modules.git
+    - git@github.com:calm/helm-hacker.git
+    - git@github.com:calm/helm.git
+    - git@github.com:calm/helmfile.git
+    - git@github.com:calm/airflow.git
+  when:
+    - ansible_os_family == 'Debian'
