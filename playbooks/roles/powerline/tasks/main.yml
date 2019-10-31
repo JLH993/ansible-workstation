@@ -1,0 +1,19 @@
+- name: Install apt packages
+  pip:
+    name: powerline-status
+  become: true
+  when:
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'
+
+- name: configure .bash_profile
+  blockinfile:
+    marker: "## POWERLINE CONFIGS {mark}"
+    block: |
+        powerline-daemon -q
+        export POWERLINE_BASH_CONTINUATION=1
+        export POWERLINE_BASH_SELECT=1
+
+        # shellcheck disable=SC1091
+        source "/usr/local/lib/python3.7/site-packages/powerline/bindings/bash/powerline.sh"
+    path: "{{ lookup('env', 'HOME') }}/.bash_profile"
