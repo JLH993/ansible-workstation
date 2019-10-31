@@ -1,0 +1,17 @@
+- name: Install apt packages
+  pip:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - boto3
+    - awscli
+    - cfn-lint
+    - GitPython
+    - pytest
+    - PyYAML
+    - requests
+  become: true
+  when:
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'
+

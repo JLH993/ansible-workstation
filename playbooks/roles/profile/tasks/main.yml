@@ -1,6 +1,156 @@
-- name: Copy MacOS bash_profile
-  template:
-    src: ../templates/bash_profile.j2
-    dest: "$HOME/.bash_profile"
+- name: Check if .bash_profile exists
+  stat:
+    path: "{{ lookup('env', 'HOME') }}/.bash_profile"
+  register: bash_profile
   when:
-    - ansible_os_family == 'Darwin'
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'
+
+- name: Create .bash_profile
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.bash_profile"
+    state: touch
+  when:
+    - not bash_profile.stat.exists
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'
+
+- name: Configure .bash_profile
+  blockinfile:
+    marker: "## GENERIC SHELL CONFIGS {mark}"
+    block: |
+        {% raw %}
+        # source .bashrc
+        if [[ -f /etc/bashrc ]]; then
+            source /etc/bashrc
+        fi
+
+        PATH="$PATH:$HOME/Scripts/.bin:$HOME/.bin"
+        export CLICOLOR=1
+        export LSCOLORS=GxFxCxDxBxegedabagaced
+
+        # Shell Histroy:
+        HISTTIMEFORMAT="%d/%m/%y %T -"
+        HISTSIZE=10000
+
+        # Functions
+        Generate-Alias(){
+            ALIAS="$1"
+            FILE="$2"
+
+            if [[ -f "$FILE" ]]; then
+                # shellcheck disable=SC2139
+                alias "${ALIAS}='$FILE'"
+            fi
+        }
+
+        print(){
+            var="$1";
+            size="${#var}";
+            printf -v sep "%${size}s" "-";
+            printf "\n%s\n%s\n" "$var" "${sep// /-}";
+        };
+
+        ipinfo(){
+            IP="$1"
+
+            if [[ "$IP" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+                curl -Ls "ipinfo.io/$IP" | jq --indent 4
+            else
+                printf "%s does not appear to be a valid IP.\n" "$IP"
+                return 1;
+            fi;
+        }
+
+        Validate-CloudFormation(){
+            DIR="$1"
+
+            if [[ -z "$DIR" ]]; then
+                DIR='.'
+            fi
+
+            while read -r FILE; do
+                print "$FILE";
+
+                cfn-lint "$FILE" &&
+                    echo "No issues found.";
+            done < <(
+                find "$DIR" \
+                    -name "*.yml" \
+                    -not -path "*bamboo*" \
+                    -not -path "*gitlab*"
+            )
+        }
+
+        Check-AWSCreds(){
+            while read -r PROFILE; do
+                printf "%-20s - " "$PROFILE";
+                aws s3 ls --profile "$PROFILE" &> /dev/null &&
+                    printf "\e[38;5;2mworking\e[0m\n" ||
+                        printf "\e[38;5;1mbroken\e[0m\n"
+            done < <(
+                grep '\[' ~/.aws/credentials | \
+                    grep -Pow '[a-zA-Z\-]+'
+            )
+        }
+
+        complete_if_exists(){
+            FILE="$1"
+            COMMAND="$2"
+
+            if test -f "$FILE"; then
+                if command -v "$COMMAND" > /dev/null; then
+                    complete -C "$FILE" "$COMMAND"
+                else
+                    echo "$COMMAND does not exist."
+                fi
+            else
+                echo "$FILE does not exist."
+            fi
+        }
+
+        source_if_exists(){
+            FILE="$1"
+
+            if test -f "$FILE"; then
+                source "$FILE"
+            else
+                echo "$FILE does not exist."
+            fi
+        }
+
+        # Aliases
+        alias ll='ls -l'
+        alias tree='tree -C'
+        alias tscurl='curl -Lsvo /dev/null'
+
+        command -v nmap > /dev/null &&
+            alias ciphers='nmap -p 443 --script ssl-enum-ciphers'
+
+        # Completers
+        # shellcheck disable=SC1091
+        source_if_exists /usr/local/etc/profile.d/bash_completion.sh
+        complete_if_exists "$(command -v aws_completer)" aws
+        complete_if_exists "/usr/local/etc/bash_completion.d/az" az
+        complete_if_exists /usr/local/bin/terraform terraform
+
+        # shellcheck disable=SC1090
+        source_if_exists ~/Git/git-completion.bash
+
+        # shellcheck disable=SC1090
+        source <( command -v kubectl > /dev/null && kubectl completion bash )
+
+        # Kops
+        export KOPS_STATE_STORE="s3://dev.k8s.aztek.io"
+
+        # Default Editor
+        export EDITOR="vim"
+
+        # Python 3.7
+        alias python=python3
+        alias pip=pip3
+        {% endraw %}
+    dest: "{{ lookup('env', 'HOME') }}/.bash_profile"
+  when:
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'

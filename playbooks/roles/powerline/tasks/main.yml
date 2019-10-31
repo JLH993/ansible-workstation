@@ -1,0 +1,39 @@
+- name: Install powerline fonts via apt
+  apt:
+    name: fonts-powerline
+  become: true
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Install powerline via pip
+  pip:
+    name: powerline-status
+  become: true
+  when:
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'
+
+- name: Configure .bash_profile
+  blockinfile:
+    marker: "## POWERLINE CONFIGS {mark}"
+    block: |
+        powerline-daemon -q
+        export POWERLINE_BASH_CONTINUATION=1
+        export POWERLINE_BASH_SELECT=1
+
+        # shellcheck disable=SC1091
+        POWERLINE_BASH_BINDINDS_FILE=/usr/local/lib/python3.7/dist-packages/powerline/bindings/bash/powerline.sh
+        test -f "$POWERLINE_BASH_BINDINDS_FILE" && \
+            source "$POWERLINE_BASH_BINDINDS_FILE"
+    path: "{{ lookup('env', 'HOME') }}/.bash_profile"
+  when:
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'
+
+- name: Configure Powerline
+  copy:
+    src: "../templates/.config/powerline"
+    dest: "{{ lookup('env', 'HOME') }}/.config"
+  when:
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'

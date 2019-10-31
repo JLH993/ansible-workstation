@@ -1,6 +1,0 @@
-- name: Copy .vimrc file to the home directory.
-  copy:
-    src: ../templates/vimrc.j2
-    dest: "/Users/{{ username }}/.vimrc"
-  when:
-  - ansible_os_family == 'Darwin'

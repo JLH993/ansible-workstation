@@ -1,8 +1,17 @@
 - hosts: all
   vars:
-    username: robert
+    username:  robert
+    git_name:  "Robert J."
+    git_email: robert@aztek.io
   roles:
-  - brew
+  # - brew
+  - apt
+  - generic_pip
+  - docker
+  - spf13
+  - git
   - profile
-  - vimrc
-  - desktop_cleanup
+  - powerline
+  # - desktop_cleanup
+  # - repos_calm
+  - repos_aztek
