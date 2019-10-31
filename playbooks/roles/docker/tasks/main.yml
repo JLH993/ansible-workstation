@@ -1,0 +1,16 @@
+- name: Ensure docker is running
+  service:
+    name: docker
+    state: started
+  become: true
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Chown /var/run/docker.cock
+  file:
+    path: /var/run/docker.sock
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+  become: true
+  when:
+    - ansible_os_family == 'Debian'
