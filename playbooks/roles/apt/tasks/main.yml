@@ -4,6 +4,10 @@
   vars:
     packages:
     - tree
+    - docker.io
+    - htop
+    - nmap
+    - jq
     - vim
     - python3-pip
   become: true

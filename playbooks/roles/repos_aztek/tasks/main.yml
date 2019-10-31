@@ -1,0 +1,43 @@
+- name: Clone all the things
+  git:
+    repo: "{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/Git/Aztek/{{ item.split('/')[-1].split('.')[0] }}"
+  loop:
+    - git@gitlab.com:aztek-io/bash-snippets.git
+    - git@gitlab.com:aztek-io/kops-container.git
+    - git@gitlab.com:aztek-io/cfn-lint-container.git
+    - git@gitlab.com:aztek-io/k8s_cluster.git
+    - git@gitlab.com:aztek-io/demo_env.git
+    - git@gitlab.com:aztek-io/ansible-container.git
+    - git@gitlab.com:aztek-io/ansible_gitlab_demo.git
+    - git@gitlab.com:aztek-io/git-container.git
+    - git@gitlab.com:aztek-io/aztek_website.git
+    - git@gitlab.com:aztek-io/cve_bot.git
+    - git@gitlab.com:aztek-io/awscli-container.git
+    - git@gitlab.com:aztek-io/armor-cli.git
+    - git@gitlab.com:aztek-io/oncall.git
+    - git@gitlab.com:aztek-io/grafana-iac.git
+    - git@gitlab.com:aztek-io/cloudwatch-iac.git
+    - git@gitlab.com:aztek-io/VPC.git
+    - git@gitlab.com:aztek-io/toptal-screening.git
+    - git@gitlab.com:aztek-io/ecs-cluster.git
+    - git@gitlab.com:aztek-io/word-count.git
+    - git@gitlab.com:aztek-io/vscode-settings.git
+    - git@gitlab.com:aztek-io/vpc-with-webapp.git
+    - git@gitlab.com:aztek-io/packer-example.git
+    - git@gitlab.com:aztek-io/slackmojis.git
+    - git@gitlab.com:aztek-io/lambda_autocleanup.git
+    - git@gitlab.com:aztek-io/al2-asg.git
+    - git@gitlab.com:aztek-io/get_parameters.git
+    - git@gitlab.com:aztek-io/aws_costing_report_generator.git
+    - git@gitlab.com:aztek-io/cdn.git
+    - git@gitlab.com:aztek-io/python-unit-test-example.git
+    - git@gitlab.com:aztek-io/python-version-utils.git
+    - git@gitlab.com:aztek-io/bulk-jira-ticket-creation.git
+    - git@gitlab.com:aztek-io/helm-container.git
+    - git@gitlab.com:aztek-io/blog.git
+    - git@gitlab.com:aztek-io/version-utils.git
+    - git@gitlab.com:aztek-io/pgbouncer-container.git
+    - git@gitlab.com:aztek-io/cloudtrail-bot.git
+  when:
+    - ansible_os_family == 'Debian'

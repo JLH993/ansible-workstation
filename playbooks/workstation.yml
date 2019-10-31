@@ -5,11 +5,12 @@
     git_email: robert@aztek.io
   roles:
   # - brew
-  # - apbrt
-  # - gebrneric_pip
-  # - spbrf13
-  # - gibrt
-  # - prbrofile
-  # - pobrwerline
-  # - debrsktop_cleanup
-  - repos
+  - apt
+  - generic_pip
+  - spf13
+  - git
+  - profile
+  - powerline
+  # - desktop_cleanup
+  # - repos_calm
+  # - repos_aztek
