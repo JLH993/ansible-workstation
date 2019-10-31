@@ -6,7 +6,9 @@
   roles:
   - brew
   - apt
+  - generic_pip
   - spf13
   - git
   - profile
+  - powerline
   - desktop_cleanup
