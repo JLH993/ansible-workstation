@@ -120,7 +120,7 @@
         }
 
         # Aliases
-        alias ll='ls -l'
+        alias ll='ls -l --color'
         alias tree='tree -C'
         alias tscurl='curl -Lsvo /dev/null'
 
