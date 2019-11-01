@@ -18,6 +18,7 @@
 
 - name: Wait for API limits
   shell: "sleep 15"
+  changed_when: False
   when:
     - ansible_os_family == 'Debian'
 
@@ -41,6 +42,7 @@
 
 - name: Wait for API limits
   shell: "sleep 15"
+  changed_when: False
   when:
     - ansible_os_family == 'Debian'
 
@@ -64,6 +66,7 @@
 
 - name: Wait for API limits
   shell: "sleep 15"
+  changed_when: False
   when:
     - ansible_os_family == 'Debian'
 
