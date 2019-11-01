@@ -4,6 +4,8 @@
   vars:
     packages:
     - tree
+    - curl
+    - wget
     - docker.io
     - htop
     - nmap

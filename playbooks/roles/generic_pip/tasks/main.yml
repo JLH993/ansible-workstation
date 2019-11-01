@@ -6,6 +6,7 @@
     - boto3
     - awscli
     - cfn-lint
+    - ansible-lint
     - GitPython
     - pytest
     - PyYAML

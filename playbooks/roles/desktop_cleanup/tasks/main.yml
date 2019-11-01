@@ -3,25 +3,27 @@
     state: directory
     path: "{{ item }}"
   loop:
-    - "/Users/{{ username }}/Git"
-    - "/Users/{{ username }}/Scripts"
-    - "/Users/{{ username }}/Scripts/.bin"
+    - "{{ lookup('env', 'HOME') }}/Git"
+    - "{{ lookup('env', 'HOME') }}/Scripts"
+    - "{{ lookup('env', 'HOME') }}/Google Drive"
+    - "{{ lookup('env', 'HOME') }}/Scripts/.bin"
+    - "{{ lookup('env', 'HOME') }}/.bin"
   when:
     - ansible_os_family == 'Darwin'
 
 - name: Copy desktop_cleanup.py to .bin directory
   copy:
-    src: ../templates/desktop_cleanup.py
-    dest: "/Users/{{ username }}/Scripts/.bin"
+    src: desktop_cleanup.py
+    dest: "{{ lookup('env', 'HOME') }}/Scripts/.bin"
     mode: 0744
-    owner: "{{ username }}"
+    owner: "{{ lookup('env', 'USER') }}"
   when:
     - ansible_os_family == 'Darwin'
 
 - name: Configure Launchd config
   template:
-    src: ../templates/com.scriptmyjob.desktop_cleanup.plist.j2
-    dest: "/Users/{{ username }}/Library/LaunchAgents/com.scriptmyjob.desktop_cleanup.plist"
+    src: com.scriptmyjob.desktop_cleanup.plist.j2
+    dest: "{{ lookup('env', 'HOME') }}/Library/LaunchAgents/com.scriptmyjob.desktop_cleanup.plist"
   when:
     - ansible_os_family == 'Darwin'
 

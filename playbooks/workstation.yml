@@ -1,6 +1,5 @@
 - hosts: all
   vars:
-    username:  robert
     git_name:  "Robert J."
     git_email: robert@aztek.io
   roles:
@@ -13,5 +12,5 @@
   - profile
   - powerline
   # - desktop_cleanup
-  # - repos_calm
-  - repos_aztek
+  - repos_calm
+  # - repos_aztek

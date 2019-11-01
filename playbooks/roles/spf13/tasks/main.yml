@@ -7,7 +7,7 @@
       ansible_os_family == 'Darwin'
 
 - name: Configure spf13
-  shell: printf "\n\n" | sh /tmp/spf13-setup.sh  
+  script: /tmp/spf13-setup.sh
   args:
     executable: /bin/bash
     creates: "{{ lookup('env','HOME') }}/.spf13-vim-3"
