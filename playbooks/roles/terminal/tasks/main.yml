@@ -1,0 +1,23 @@
+- name: Wait for API limits
+  shell: "dconf list /org/gnome/terminal/legacy/profiles:/"
+  register: terminal
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Add Terminal Profile
+  template:
+    src: terminal-profile.dconf
+    dest: "/tmp/terminal-profile.dconf"
+    mode: 0644
+    owner: "{{ lookup('env', 'USER') }}"
+  register: terminal_profile
+  when:
+    - ansible_os_family == 'Debian'
+    - terminal.stdout != ":12345678-1234-1234-1234-1234567890ab"
+
+- name: Import profile
+  shell: "dconf load /org/gnome/terminal/ < /tmp/terminal-profile.dconf"
+  when:
+    - ansible_os_family == 'Debian'
+    - terminal.stdout != ":12345678-1234-1234-1234-1234567890ab" or
+      terminal_profile.changed
