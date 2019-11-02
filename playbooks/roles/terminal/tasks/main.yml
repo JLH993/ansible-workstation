@@ -1,5 +1,13 @@
 - name: Get Terminal Profile
-  shell: "dconf list /org/gnome/terminal/legacy/profiles:/ | grep '^:'"
+  shell: |
+    set -o pipefail
+
+    dconf list /org/gnome/terminal/legacy/profiles:/ | \
+    {% raw %}
+        grep -Pow '\w{8}(-\w{4}){3}-\w{12}'
+    {% endraw %}
+  args:
+    executable: /bin/bash
   register: terminal
   changed_when: False
   when:
@@ -28,5 +36,5 @@
   shell: "dconf reset -f /org/gnome/terminal/ && dconf load /org/gnome/terminal/ < {{ config_dir.path }}/terminal-profile.dconf"
   when:
     - ansible_os_family == 'Debian'
-    - terminal.stdout != ":{{ profile_guid }}/" or
+    - terminal.stdout != profile_guid or
       terminal_profile.changed
