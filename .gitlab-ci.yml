@@ -1,0 +1,19 @@
+before_script:
+  - 'echo "Start time: $(date)"'
+  - |
+      if command -v python; then
+          python --version
+      fi
+
+stages:
+  - lint
+
+lint_ansible:
+  stage: lint
+  script:
+    - ansible-lint playbooks/*.yml
+  image: aztek/ansible
+  only:
+    changes:
+    - .gitlab-ci.yml
+    - playbooks/**/*

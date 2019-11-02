@@ -1,12 +1,12 @@
 [legacy/keybindings]
-paste='<Primary>v'
+paste='<Primary><Shift>v'
 copy='<Primary><Shift>c'
 
 [legacy/profiles:]
-list=['12345678-1234-1234-1234-1234567890ab']
-default='12345678-1234-1234-1234-1234567890ab'
+list=['{{ profile_guid }}']
+default='{{ profile_guid }}'
 
-[legacy/profiles:/:12345678-1234-1234-1234-1234567890ab]
+[legacy/profiles:/:{{ profile_guid }}]
 background-color='rgb(46,52,54)'
 foreground-color='rgb(211,215,207)'
 use-theme-colors=false

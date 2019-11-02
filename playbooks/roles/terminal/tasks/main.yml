@@ -1,23 +1,40 @@
-- name: Wait for API limits
-  shell: "dconf list /org/gnome/terminal/legacy/profiles:/"
+- name: Get Terminal Profile
+  shell: |
+    set -o pipefail
+
+    dconf list /org/gnome/terminal/legacy/profiles:/ | \
+    {% raw %}
+        grep -Pow '\w{8}(-\w{4}){3}-\w{12}'
+    {% endraw %}
+  args:
+    executable: /bin/bash
   register: terminal
+  changed_when: False
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: Create ansible terminal settings driectory
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.ansible/terminal/"
+    state: directory
+    mode: 0755
+  register: config_dir
   when:
     - ansible_os_family == 'Debian'
 
 - name: Add Terminal Profile
   template:
-    src: terminal-profile.dconf
-    dest: "/tmp/terminal-profile.dconf"
+    src: terminal-profile.dconf.j2
+    dest: "{{ config_dir.path }}/terminal-profile.dconf"
     mode: 0644
     owner: "{{ lookup('env', 'USER') }}"
   register: terminal_profile
   when:
     - ansible_os_family == 'Debian'
-    - terminal.stdout != ":12345678-1234-1234-1234-1234567890ab"
 
 - name: Import profile
-  shell: "dconf load /org/gnome/terminal/ < /tmp/terminal-profile.dconf"
+  shell: "dconf reset -f /org/gnome/terminal/ && dconf load /org/gnome/terminal/ < {{ config_dir.path }}/terminal-profile.dconf"
   when:
     - ansible_os_family == 'Debian'
-    - terminal.stdout != ":12345678-1234-1234-1234-1234567890ab" or
+    - terminal.stdout != profile_guid or
       terminal_profile.changed
