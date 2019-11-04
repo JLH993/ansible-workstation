@@ -4,14 +4,15 @@
     git_email: robert@aztek.io
   roles:
   # - brew
-  - apt
-  - generic_pip
-  - docker
-  - spf13
-  - git
-  - profile
-  - powerline
+  # - apt
+  # - generic_pip
+  # - docker
+  # - spf13
+  # - git
+  # - profile
+  # - powerline
   - terminal
+  - tmux
   # - desktop_cleanup
   # - repos_calm
   # - repos_aztek
