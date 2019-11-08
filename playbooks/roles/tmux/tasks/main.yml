@@ -57,3 +57,26 @@
     - ansible_os_family == 'Debian' or
       ansible_os_family == 'Darwin'
 
+- name: Configure .bash_profile
+  blockinfile:
+    marker: "## TMUX CONFIGS {mark}"
+    block: |
+        attach-tmuxsession(){
+            if command -v tmux > /dev/null; then
+                if [[ "$TERM" == "screen" ]]; then
+                    return
+                elif tmux ls | grep -v attached; then
+                    LAST_UNATTACHED="$(tmux ls | grep -v attached | awk -F ':' 'END {print $1}')"
+                    tmux attach -t "$LAST_UNATTACHED"
+                else
+                    exec tmux
+                fi
+            fi
+        }
+
+        attach-tmuxsession
+    path: "{{ lookup('env', 'HOME') }}/.bash_profile"
+  when:
+    - ansible_os_family == 'Debian' or
+      ansible_os_family == 'Darwin'
+

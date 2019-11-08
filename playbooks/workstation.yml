@@ -6,7 +6,7 @@
   # - brew
   # - apt
   # - generic_pip
-  # - docker
+  - docker
   # - spf13
   # - git
   # - profile
