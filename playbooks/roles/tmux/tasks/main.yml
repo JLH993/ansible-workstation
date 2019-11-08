@@ -26,7 +26,7 @@
   git:
     repo: "https://github.com/jimeh/tmux-themepack.git"
     dest: "{{ lookup('env', 'HOME') }}/.tmux-themepack"
-    refspec: 1b1b8098419daacb92ca401ad6ee0ca6894a40ca
+    version: 1b1b8098419daacb92ca401ad6ee0ca6894a40ca
   when:
     - ansible_os_family == 'Debian' or
       ansible_os_family == 'Darwin'
