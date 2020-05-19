@@ -2,7 +2,7 @@
   shell: |
     set -o pipefail
 
-    dconf list /org/gnome/terminal/legacy/profiles:/ | \
+    gsettings get org.gnome.Terminal.ProfilesList default | \
     {% raw %}
         grep -Pow '\w{8}(-\w{4}){3}-\w{12}'
     {% endraw %}

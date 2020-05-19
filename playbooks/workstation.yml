@@ -4,15 +4,15 @@
     git_email: jasonhensley93@gmail.com
   roles:
   # - brew
-  # - apt
+    - apt
   # - generic_pip
-  - docker
+    - docker
   # - spf13
   # - git
-  # - profile
-  # - powerline
-  - terminal
-  - tmux
-  # - desktop_cleanup
+    - profile
+    - powerline
+    - terminal
+    - tmux
+    - desktop_cleanup
   # - repos_calm
   # - repos_aztek
