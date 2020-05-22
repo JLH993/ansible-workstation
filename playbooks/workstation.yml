@@ -5,14 +5,13 @@
   roles:
   # - brew
     - apt
-  # - generic_pip
+    - generic_pip
     - docker
-  # - spf13
-  # - git
+    - spf13
+    - git
     - profile
     - powerline
     - terminal
     - tmux
     - desktop_cleanup
-  # - repos_calm
-  # - repos_aztek
+    - repos_JLH993

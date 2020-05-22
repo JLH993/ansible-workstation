@@ -140,9 +140,6 @@
         # shellcheck disable=SC1090
         source <( command -v kubectl > /dev/null && kubectl completion bash )
 
-        # Kops
-        export KOPS_STATE_STORE="s3://dev.k8s.aztek.io"
-
         # Default Editor
         export EDITOR="vim"
 

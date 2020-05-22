@@ -1,0 +1,15 @@
+ - name: Clone all the things
+   git:
+     repo: "{{ item }}"
+     dest: "{{ lookup('env', 'HOME') }}/Git/Calm/{{ item.split('/')[-1].split('.')[0] }}"
+   loop:
+     - git@github.com:JLH993/python-reference.git
+     - git@github.com:JLH993/linux-template-deploy.git
+     - git@github.com:JLH993/security-scripts.git
+     - git@github.com:JLH993/net-speed-test.git
+     - git@github.com:JLH993/sherlock.git
+     - git@github.com:JLH993/vapi.git
+     - git@github.com:JLH993/kvm-backups.git
+     - git@github.com:JLH993/lab-automation.git
+   when:
+     - ansible_os_family == 'Debian'
