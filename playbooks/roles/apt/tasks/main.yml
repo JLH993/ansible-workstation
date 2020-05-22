@@ -7,7 +7,6 @@
     - curl
     - wget
     - docker.io
-    - git
     - htop
     - nmap
     - jq
@@ -16,4 +15,3 @@
   become: true
   when:
     - ansible_os_family == 'Debian'
-
